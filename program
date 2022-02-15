@@ -1,0 +1,44 @@
+tempfile = open('sample_input.txt','r')
+
+allLines = tempfile.readlines()
+#allLines is a list of strings
+
+myDict = {}
+
+firstLine = allLines[0].split()
+n = int(firstLine[3])
+#n = number of employees
+
+allLines = allLines[4:]
+
+for eachLine in allLines:
+    currList = eachLine.split()
+    myDict[int(currList[-1])] = " ".join(currList[:-1])
+ 
+
+keylist = list(myDict.keys())
+keylist.sort()
+
+minDiff = 999999
+
+for i in range (len(keylist) - n):
+    tempDiff = abs( keylist[i] - keylist[i+n-1] )
+    if tempDiff < minDiff:
+        minDiff = tempDiff
+
+outFile = open('sample_output.txt','w')
+
+for i in range (len(keylist) - n):
+    tempDiff = abs( keylist[i] - keylist[i+n-1] )
+    if tempDiff == minDiff:
+        tempLine ="The goodies selected for distribution are:\n"
+        outFile.write(tempLine)
+        # print("The goodies selected for distribution are:\n")
+        for j in range(n):
+            tempLine = "\n" + str(myDict[keylist[i+j]]) + " " + str(keylist[i+j])
+            outFile.write(tempLine)
+            # print( myDict[keylist[i+j]] , keylist[i+j] )
+        tempLine ="\n\nAnd the difference between the chosen goodie with highest price and the lowest price is " + str(minDiff)
+        outFile.write (tempLine)
+        # print("\nAnd the difference between the chosen goodie with highest price and the lowest price is",minDiff)
+        break
